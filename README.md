@@ -5,5 +5,5 @@ npm i
 
 2. run server
 ```
-npm run dev
+node server.js
 ```

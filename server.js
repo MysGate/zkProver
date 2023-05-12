@@ -20,6 +20,14 @@ app.get('/hello', (request, response) => {
 })
 
 
+app.post('/world', (request, response) => {
+  const data = request.body
+  console.log('post data', data)
+
+  response.send('123')
+})
+
+
 const server = app.listen(2000, () => {
   console.log(`visit: http://localhost:2000/hello`)
 })
