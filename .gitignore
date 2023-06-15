@@ -1,1 +1,13 @@
 node_modules
+.DS_Store
+run.sh
+input.json
+main.r1cs
+main.sym
+verification_key.json
+proof.json
+public.json
+generate_witness.js
+get_merkle_root.circom
+main.circom
+merkle_proof_verification.circom
