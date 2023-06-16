@@ -1,4 +1,5 @@
 import { ethers, BigNumberish } from "ethers";
+const contractABI  = require("../contract/Bridge.json");
 const fs = require("fs");
 const path = require("path");
 const snarkjs = require("snarkjs");
@@ -22,30 +23,26 @@ function parseProof(proof: any): Proof {
 }
 
 async function getMerkleProof(bridgeInstance, leaf_index) {
-  let res = []
-  let addressBits = []
-  let tx = await bridgeInstance.getMerkleProof(leaf_index);
-  let receipt = await tx.wait()
-
-  let abi = ["event MerkleProof(uint256[8] , uint256[8] )"]
-  var iface = new ethers.utils.Interface(abi);
-  let logs = iface.parseLog(receipt.events[0]);
-  let proof = logs.args[0]
-  let proof2 = logs.args[1]
-
-  for (let i = 0; i < proof.length; i++) {
-      let t = proof[i];
-      res.push(t.toString())
-  }
-
-  for (let i = 0; i < proof2.length; i++) {
-      let t = proof2[i];
-      addressBits.push(t.toString())
-  }
-  return [res, addressBits];
+    let res = []
+    let addressBits = []
+    let [proof, proof2] = await bridgeInstance.getMerkleProof(leaf_index);
+    for (let i = 0; i < proof.length; i++) {
+        let t = proof[i];
+        res.push(t.toString())
+    }
+  
+    for (let i = 0; i < proof2.length; i++) {
+        let t = proof2[i];
+        addressBits.push(t.toString())
+    }
+    return [res, addressBits];
 }
 
-export async function generateProof(contract, cmtIdx, txhash) {
+export async function generateProof(addr, url, cmtIdx, txhash) {
+    console.log("generateProof:", addr, url, cmtIdx, txhash);
+    const provider = new ethers.providers.JsonRpcProvider(url);
+    console.log("provider:", provider);
+    let contract = new ethers.Contract(addr, contractABI, provider);
     const poseidonHash = await cls.buildPoseidonReference();
     let [merklePath, path2RootPos2] = await getMerkleProof(contract, cmtIdx)
     console.log("merklePath", merklePath);

@@ -1,17 +1,18 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const utils = require("./src/utils.js");
 
 const app = express()
 app.use(bodyParser.json())
 
-app.post('/proof', (request, response) => {
+app.post('/proof/generate', async(request, response) => {
   const data = request.body
   console.log('post data', data)
-
-  response.send({proof: "123"})
+  const [a, b, c, publicInfo] = await utils.generateProof(data.addr, data.url, data.cmtIdx, data.txhash);
+  const proof = {a, b, c}
+  response.status(200).json({proof, publicInfo})
 })
 
-const server = app.listen(2000, () => {
-  console.log(`visit: http://localhost:2000/proof`)
+const server = app.listen(3000, () => {
+  console.log(`visit: http://localhost:3000/proof/generate`);
 })

@@ -10,6 +10,7 @@
     "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.6",
+    "express": "^4.18.2",
     "sequelize": "^6.15.0",
     "snarkjs": "^0.6.1",
     "temp": "^0.9.4"
