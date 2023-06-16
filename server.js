@@ -10,6 +10,8 @@ app.post('/proof/generate', async(request, response) => {
   console.log('post data', data)
   const [a, b, c, publicInfo] = await utils.generateProof(data.addr, data.url, data.cmtIdx, data.txhash);
   const proof = {a, b, c}
+  console.log("proof", proof);
+  console.log("publicInfo", publicInfo);
   response.status(200).json({proof, publicInfo})
 })
 
