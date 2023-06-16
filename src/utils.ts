@@ -39,9 +39,7 @@ async function getMerkleProof(bridgeInstance, leaf_index) {
 }
 
 export async function generateProof(addr, url, cmtIdx, txhash) {
-    console.log("generateProof:", addr, url, cmtIdx, txhash);
     const provider = new ethers.providers.JsonRpcProvider(url);
-    console.log("provider:", provider);
     let contract = new ethers.Contract(addr, contractABI, provider);
     const poseidonHash = await cls.buildPoseidonReference();
     let [merklePath, path2RootPos2] = await getMerkleProof(contract, cmtIdx)
